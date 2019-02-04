@@ -3,9 +3,18 @@ version: '3.7'
 services:
   ubuntu:
     build: ubuntu
+    image: mattipaksula/shell:ubuntu
+    ports:
+      - 8080:8080
+  alpine-slim:
+    build: alpine-slim
+    image: mattipaksula/shell:alpine-slim
     ports:
       - 8080:8080
   alpine:
     build: alpine
+    image: mattipaksula/shell:alpine
     ports:
       - 8080:8080
+      - 5900:5900
+      - 15900:15900

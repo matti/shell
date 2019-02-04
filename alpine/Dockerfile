@@ -11,12 +11,16 @@ RUN apk add --no-cache \
   nano \
   openssh \
   screen tmux \
+  postgresql-client mysql-client redis \
   bash zsh \
   ruby ruby-irb ruby-rdoc \
   nodejs npm yarn \
   python py-pip \
   go \
   apache2-utils wrk \
+  xvfb fluxbox x11vnc xdpyinfo xterm xeyes nss harfbuzz \
+  && \
+  apk add chromium --repository http://nl.alpinelinux.org/alpine/edge/community \
   && \
   pip install ranger-fm \
   && \
@@ -28,6 +32,13 @@ RUN apk add --no-cache \
   && \
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" \
   && \
-  echo "export TERM=xterm" >> /root/.zshrc
+  echo "export TERM=xterm" >> /root/.zshrc \
+  && \
+  git clone https://github.com/novnc/noVNC.git /opt/novnc \
+  && git clone https://github.com/novnc/websockify /opt/novnc/utils/websockify
 
-ENTRYPOINT [ "/root/go/bin/gotty", "-w", "-term", "xterm", "zsh"]
+WORKDIR /root
+
+COPY entrypoint.sh /
+COPY index.html /opt/novnc
+ENTRYPOINT [ "/entrypoint.sh" ]
