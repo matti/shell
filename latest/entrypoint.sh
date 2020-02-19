@@ -1,9 +1,12 @@
 #!/usr/bin/env sh
-set -e
+set -euo pipefail
 export DISPLAY=:0
-rm -rf /tmp/*.*
 
-Xvfb :0 -screen 0 1600x900x24 &
+set +e
+  rm -rf /tmp/*.*
+set -e
+
+Xvfb :0 -screen 0 1366x768x24 &
 
 while true; do
   set +e
@@ -27,4 +30,4 @@ cd /opt/novnc
   utils/launch.sh --listen 15900 --vnc localhost:5900 &
 cd /root
 
-/root/go/bin/gotty -w -term xterm zsh
+exec /root/go/bin/gotty -w -term xterm zsh

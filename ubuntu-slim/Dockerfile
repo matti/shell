@@ -8,6 +8,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
   nano \
   screen \
   links2 \
+  redis \
   && rm -rf /var/lib/apt/lists/*
 
-ENTRYPOINT [ "tail", "-f", "/dev/null" ]
+COPY --from=k8s.gcr.io/pause:3.2 /pause /usr/bin/pause
+ENTRYPOINT [ "/usr/bin/pause" ]

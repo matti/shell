@@ -1,6 +1,4 @@
-FROM alpine
-
-WORKDIR /root
+FROM alpine:3.11
 
 RUN apk add --no-cache \
   build-base git \
@@ -14,5 +12,5 @@ RUN apk add --no-cache \
   postgresql-client mysql-client redis \
   bash
 
-WORKDIR /root
-ENTRYPOINT [ "tail", "-f", "/dev/null" ]
+COPY --from=k8s.gcr.io/pause:3.2 /pause /usr/bin/pause
+ENTRYPOINT [ "/usr/bin/pause" ]
